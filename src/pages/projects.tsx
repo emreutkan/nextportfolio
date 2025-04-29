@@ -11,13 +11,8 @@ export default function Projects() {
 
     const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null)
     const [showDemo, setShowDemo] = useState(false)
-    const [animationComplete, setAnimationComplete] = useState(false)
 
     useEffect(() => {
-        setTimeout(() => {
-            setAnimationComplete(true)
-        }, 500)
-
         if (id) {
             const projectId = parseInt(id as string)
             const foundProject = projects.find(p => p.id === projectId)

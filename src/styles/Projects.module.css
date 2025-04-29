@@ -4,7 +4,6 @@
     flex-direction: column;
     background-color: #0f1624;
     color: #ffffff;
-    animation: fadeIn 0.5s ease forwards;
 }
 
 .header {
@@ -17,7 +16,6 @@
     position: sticky;
     top: 0;
     z-index: 100;
-    animation: slideDown 0.5s ease forwards;
 }
 
 .logo {
@@ -74,6 +72,7 @@
     display: flex;
     padding: 0;
     position: relative;
+    opacity: 1;
 }
 
 .projectsNav {
@@ -84,7 +83,7 @@
     position: sticky;
     top: 60px;
     background-color: #0f1624;
-    animation: slideInLeft 0.5s ease forwards;
+    display: block;
 }
 
 .projectsTitle {
@@ -104,7 +103,6 @@
     height: 3px;
     background-color: #a8b2d1;
     transform: translateY(50%);
-    animation: slideInLeft 0.8s ease forwards;
 }
 
 .projectsList {
@@ -116,24 +114,8 @@
     cursor: pointer;
     transition: all 0.3s ease;
     border-left: 3px solid transparent;
-    opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
-}
-
-.projectItem:nth-child(1) {
-    animation-delay: 0.1s;
-}
-
-.projectItem:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.projectItem:nth-child(3) {
-    animation-delay: 0.3s;
-}
-
-.projectItem:nth-child(4) {
-    animation-delay: 0.4s;
+    opacity: 1;
+    display: block;
 }
 
 .projectItem:hover {
@@ -195,8 +177,8 @@
     padding: 2rem;
     overflow-y: auto;
     height: calc(100vh - 60px);
-    animation: fadeIn 0.8s ease forwards;
-    position: relative;
+    display: block;
+    opacity: 1;
 }
 
 .projectDetailHeader {
@@ -206,7 +188,6 @@
     margin-bottom: 2rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #1b2336;
-    animation: slideDown 0.5s ease forwards;
 }
 
 .projectTitle {
@@ -224,14 +205,12 @@
     width: 60px;
     height: 3px;
     background-color: #a8b2d1;
-    animation: slideInRight 0.8s ease forwards;
 }
 
 .projectLinks {
     display: flex;
     gap: 1rem;
-    animation: fadeIn 0.8s ease 0.3s forwards;
-    opacity: 0;
+    opacity: 1;
 }
 
 .githubLink, .demoButton {
@@ -296,7 +275,6 @@
 .projectReadme {
     font-size: 1rem;
     line-height: 1.6;
-    animation: slideInLeft 0.8s ease forwards;
 }
 
 .markdownContent h1 {
@@ -375,8 +353,6 @@
 
 .projectTechnologies {
     margin-top: 2rem;
-    animation: fadeIn 0.8s ease 0.3s forwards;
-    opacity: 0;
 }
 
 .projectTechnologies h3 {
@@ -407,7 +383,7 @@
 .projectMedia {
     display: flex;
     flex-direction: column;
-    animation: slideInRight 0.8s ease forwards;
+    opacity: 1;
 }
 
 .projectImagesContainer {
@@ -436,22 +412,10 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-    opacity: 0;
-    animation: fadeIn 0.5s ease forwards;
-    transform: translateY(20px);
+    opacity: 1;
+    transform: translateY(0);
     transition: all 0.3s ease;
-}
-
-.projectImage:nth-child(1) {
-    animation-delay: 0.3s;
-}
-
-.projectImage:nth-child(2) {
-    animation-delay: 0.5s;
-}
-
-.projectImage:nth-child(3) {
-    animation-delay: 0.7s;
+    display: block;
 }
 
 .projectImage:hover {
@@ -473,12 +437,12 @@
 .demoContainer {
     height: 100%;
     min-height: 600px;
-    animation: fadeIn 0.8s ease forwards;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    transform: translateY(20px);
-    animation: slideUp 0.8s ease forwards;
+    transform: translateY(0);
+    opacity: 1;
+    display: block;
 }
 
 .demoFrame {
@@ -497,7 +461,6 @@
     border-top: 1px solid #1b2336;
     color: #a8b2d1;
     font-size: 0.9rem;
-    animation: fadeIn 0.8s ease forwards;
 }
 
 @media (max-width: 1024px) {
