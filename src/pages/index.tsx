@@ -6,6 +6,7 @@ import styles from '../styles/Home.module.css'
 export default function Home() {
     const [activeNav, setActiveNav] = useState('home')
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
+    const [scrollProgress, setScrollProgress] = useState(0)
 
     const sectionRefs = useRef<(HTMLElement | null)[]>([])
     const sections = ['home', 'projects', 'about', 'certificates', 'contact']
@@ -13,28 +14,45 @@ export default function Home() {
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId)
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' })
+            const headerOffset = 80
+            const elementPosition = element.getBoundingClientRect().top
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            })
             setActiveNav(sectionId)
         }
     }
 
     const handleScroll = () => {
+        // Calculate current position for scroll progress indicator
+        const windowHeight = document.documentElement.scrollHeight - window.innerHeight
+        const scrolled = (window.scrollY / windowHeight) * 100
+        setScrollProgress(scrolled)
+
         const pageYOffset = window.pageYOffset
         let newIndex = 0
 
         sections.forEach((section, index) => {
             const element = document.getElementById(section)
             if (element) {
+                const rect = element.getBoundingClientRect()
                 const offsetTop = element.offsetTop - 100
 
-                if (pageYOffset >= offsetTop) {
-                    newIndex = index
-                    setActiveNav(section)
-
+                // Make sections appear when they come into view
+                if (rect.top < window.innerHeight * 0.8) {
                     const sectionElement = sectionRefs.current[index]
                     if (sectionElement && !sectionElement.classList.contains(styles.visible)) {
                         sectionElement.classList.add(styles.visible)
                     }
+                }
+
+                // Set active nav based on current section
+                if (pageYOffset >= offsetTop) {
+                    newIndex = index
+                    setActiveNav(section)
                 }
             }
         })
@@ -44,14 +62,25 @@ export default function Home() {
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
+        window.addEventListener('resize', handleScroll)
 
         sectionRefs.current = sections.map(section => document.getElementById(section))
 
+        // Initialize sections visibility
         setTimeout(() => {
             handleScroll()
+
+            // Make first section visible immediately
+            const firstSection = sectionRefs.current[0]
+            if (firstSection && !firstSection.classList.contains(styles.visible)) {
+                firstSection.classList.add(styles.visible)
+            }
         }, 100)
 
-        return () => window.removeEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            window.removeEventListener('resize', handleScroll)
+        }
     }, [])
 
     const navigateToPreviousSection = () => {
@@ -79,10 +108,10 @@ export default function Home() {
             <header className={styles.header}>
                 <div className={styles.logo}>DevPortfolio</div>
                 <nav className={styles.nav}>
-                    <a href="#projects" onClick={() => scrollToSection('projects')} className={activeNav === 'projects' ? styles.active : ''}>Projects</a>
-                    <a href="#about" onClick={() => scrollToSection('about')} className={activeNav === 'about' ? styles.active : ''}>About</a>
-                    <a href="#certificates" onClick={() => scrollToSection('certificates')} className={activeNav === 'certificates' ? styles.active : ''}>Certificates</a>
-                    <a href="#contact" onClick={() => scrollToSection('contact')} className={activeNav === 'contact' ? styles.active : ''}>Contact</a>
+                    <a href="#projects" onClick={(e) => { e.preventDefault(); scrollToSection('projects'); }} className={activeNav === 'projects' ? styles.active : ''}>Projects</a>
+                    <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }} className={activeNav === 'about' ? styles.active : ''}>About</a>
+                    <a href="#certificates" onClick={(e) => { e.preventDefault(); scrollToSection('certificates'); }} className={activeNav === 'certificates' ? styles.active : ''}>Certificates</a>
+                    <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }} className={activeNav === 'contact' ? styles.active : ''}>Contact</a>
                 </nav>
             </header>
 
@@ -92,8 +121,13 @@ export default function Home() {
                         <h1 className={styles.heroTitle}>Software Engineer & Full-Stack Developer</h1>
                         <p className={styles.heroSubtitle}>Crafting digital experiences through code and creativity</p>
                         <div className={styles.heroButtons}>
-                            <button className={styles.primaryButton}>Download CV</button>
-                            <button className={styles.secondaryButton} onClick={() => scrollToSection('projects')}>View Projects</button>
+                            <button className={styles.primaryButton}>
+                                Download CV
+                                <span className={styles.buttonGlow}></span>
+                            </button>
+                            <button className={styles.secondaryButton} onClick={() => scrollToSection('projects')}>
+                                View Projects
+                            </button>
                         </div>
                     </div>
                     <div className={styles.heroImage}>
@@ -109,7 +143,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="projects" className={`${styles.section} ${styles.visible}`}>
+            <section id="projects" ref={el => sectionRefs.current[1] = el} className={styles.section}>
                 <div className={styles.sectionContent}>
                     <h2 className={styles.sectionTitle}>Featured Projects</h2>
                     <div className={styles.featuredProjects}>
@@ -160,12 +194,12 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="about" className={`${styles.section} ${styles.visible}`}>
+            <section id="about" ref={el => sectionRefs.current[2] = el} className={styles.section}>
                 <div className={styles.sectionContent}>
                     <h2 className={styles.sectionTitle}>About Me</h2>
                     <div className={styles.aboutContent}>
                         <div className={styles.aboutText}>
-                            <p>I&#39;m a passionate software engineer specializing in frontend and full-stack development with expertise in modern web technologies.</p>
+                            <p>I'm a passionate software engineer specializing in frontend and full-stack development with expertise in modern web technologies.</p>
                             <p>With a focus on creating user-centric experiences, I blend technical skills with creative problem-solving to build efficient and scalable applications.</p>
                             <h3>Skills</h3>
                             <div className={styles.skillGrid}>
@@ -202,7 +236,7 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="certificates" className={`${styles.section} ${styles.visible}`}>
+            <section id="certificates" ref={el => sectionRefs.current[3] = el} className={styles.section}>
                 <div className={styles.sectionContent}>
                     <h2 className={styles.sectionTitle}>Certificates</h2>
                     <div className={styles.certificatesGrid}>
@@ -250,13 +284,13 @@ export default function Home() {
                 </div>
             </section>
 
-            <section id="contact" className={`${styles.section} ${styles.visible}`}>
+            <section id="contact" ref={el => sectionRefs.current[4] = el} className={styles.section}>
                 <div className={styles.sectionContent}>
-
+                    <h2 className={styles.sectionTitle}>Contact Me</h2>
                     <div className={styles.socialLinks}>
                         <a href="#" className={styles.socialLink}>
                             <svg viewBox="0 0 24 24" width="24" height="24">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" fill="none" stroke="currentColor" strokeWidth="2" />
+                                <path fill="currentColor" d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                             </svg>
                         </a>
                         <a href="#" className={styles.socialLink}>
@@ -264,6 +298,18 @@ export default function Home() {
                                 <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" fill="none" stroke="currentColor" strokeWidth="2" />
                                 <rect x="2" y="9" width="4" height="12" fill="none" stroke="currentColor" strokeWidth="2" />
                                 <circle cx="4" cy="4" r="2" fill="none" stroke="currentColor" strokeWidth="2" />
+                            </svg>
+                        </a>
+                        <a href="#" className={styles.socialLink}>
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <rect x="2" y="2" width="20" height="20" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
+                                <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+                                <circle cx="18" cy="6" r="1" fill="currentColor" />
+                            </svg>
+                        </a>
+                        <a href="#" className={styles.socialLink}>
+                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z" fill="none" stroke="currentColor" strokeWidth="2" />
                             </svg>
                         </a>
                     </div>
@@ -274,15 +320,16 @@ export default function Home() {
                 <div className={styles.footerContent}>
                     <p>© {new Date().getFullYear()} DevPortfolio. All rights reserved.</p>
                     <div className={styles.footerNav}>
-                        <a href="#home" onClick={() => scrollToSection('home')}>Home</a>
-                        <a href="#projects" onClick={() => scrollToSection('projects')}>Projects</a>
-                        <a href="#about" onClick={() => scrollToSection('about')}>About</a>
-                        <a href="#contact" onClick={() => scrollToSection('contact')}>Contact</a>
+                        <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}>Home</a>
+                        <a href="#projects" onClick={(e) => { e.preventDefault(); scrollToSection('projects'); }}>Projects</a>
+                        <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }}>About</a>
+                        <a href="#contact" onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}>Contact</a>
                     </div>
                 </div>
             </footer>
 
             <div className={styles.scrollIndicator}>
+                <div className={styles.scrollProgress} style={{ height: `${scrollProgress}%` }}></div>
                 <div className={styles.scrollButtons}>
                     <button aria-label="Previous section" onClick={navigateToPreviousSection}>
                         <svg viewBox="0 0 24 24" width="24" height="24">
