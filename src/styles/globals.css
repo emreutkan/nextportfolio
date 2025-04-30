@@ -1,3 +1,18 @@
+:root {
+    --primary: #60A5FA;
+    --primary-light: #93C5FD;
+    --secondary: #A8B2D1;
+    --background: #0f1624;
+    --background-light: #1b2336;
+    --background-lighter: #2d3748;
+    --text: #FFFFFF;
+    --text-secondary: #A8B2D1;
+    --accent: #F472B6;
+    --success: #34D399;
+    --error: #EF4444;
+    --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
 * {
     box-sizing: border-box;
     padding: 0;
@@ -11,12 +26,20 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     scroll-behavior: smooth;
+    background-color: var(--background);
+    color: var(--text);
 }
 
 a {
     color: inherit;
     text-decoration: none;
 }
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
 
 button {
     font-family: inherit;
