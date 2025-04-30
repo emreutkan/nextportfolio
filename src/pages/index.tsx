@@ -7,9 +7,12 @@ export default function Home() {
     const [activeNav, setActiveNav] = useState('home')
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
     const [scrollProgress, setScrollProgress] = useState(0)
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
 
     const sectionRefs = useRef<(HTMLElement | null)[]>([])
     const sections = ['home', 'projects', 'about', 'certificates', 'contact']
+    const sunRef = useRef<SVGSVGElement>(null)
+    const sunlightRef = useRef<SVGPathElement>(null)
 
     const scrollToSection = (sectionId: string) => {
         const element = document.getElementById(sectionId)
@@ -27,7 +30,6 @@ export default function Home() {
     }
 
     const handleScroll = () => {
-        // Calculate current position for scroll progress indicator
         const windowHeight = document.documentElement.scrollHeight - window.innerHeight
         const scrolled = (window.scrollY / windowHeight) * 100
         setScrollProgress(scrolled)
@@ -41,7 +43,6 @@ export default function Home() {
                 const rect = element.getBoundingClientRect()
                 const offsetTop = element.offsetTop - 100
 
-                // Make sections appear when they come into view
                 if (rect.top < window.innerHeight * 0.8) {
                     const sectionElement = sectionRefs.current[index]
                     if (sectionElement && !sectionElement.classList.contains(styles.visible)) {
@@ -49,7 +50,6 @@ export default function Home() {
                     }
                 }
 
-                // Set active nav based on current section
                 if (pageYOffset >= offsetTop) {
                     newIndex = index
                     setActiveNav(section)
@@ -60,17 +60,20 @@ export default function Home() {
         setCurrentSectionIndex(newIndex)
     }
 
+    const handleMouseMove = (event: MouseEvent) => {
+        setMousePosition({ x: event.clientX, y: event.clientY });
+    }
+
     useEffect(() => {
         window.addEventListener('scroll', handleScroll)
         window.addEventListener('resize', handleScroll)
+        window.addEventListener('mousemove', handleMouseMove)
 
         sectionRefs.current = sections.map(section => document.getElementById(section))
 
-        // Initialize sections visibility
         setTimeout(() => {
             handleScroll()
 
-            // Make first section visible immediately
             const firstSection = sectionRefs.current[0]
             if (firstSection && !firstSection.classList.contains(styles.visible)) {
                 firstSection.classList.add(styles.visible)
@@ -80,8 +83,37 @@ export default function Home() {
         return () => {
             window.removeEventListener('scroll', handleScroll)
             window.removeEventListener('resize', handleScroll)
+            window.removeEventListener('mousemove', handleMouseMove)
         }
     }, [])
+
+    useEffect(() => {
+        const updateSunlight = () => {
+            if (sunlightRef.current && sunRef.current) {
+                const heroSection = document.getElementById('home');
+                if (heroSection) {
+                    const rect = heroSection.getBoundingClientRect();
+                    const sunRect = sunRef.current.getBoundingClientRect();
+
+                    const sunCenterX = sunRect.left + sunRect.width / 2 - rect.left;
+                    const sunCenterY = sunRect.top + sunRect.height / 2 - rect.top;
+
+                    const x = mousePosition.x - rect.left;
+                    const y = mousePosition.y - rect.top;
+
+                    const angle = Math.atan2(y - sunCenterY, x - sunCenterX);
+                    const length = 500;
+
+                    const endX = sunCenterX + Math.cos(angle) * length;
+                    const endY = sunCenterY + Math.sin(angle) * length;
+
+                    sunlightRef.current.setAttribute('d', `M${sunCenterX},${sunCenterY} L${endX},${endY}`);
+                }
+            }
+        };
+
+        updateSunlight();
+    }, [mousePosition]);
 
     const navigateToPreviousSection = () => {
         if (currentSectionIndex > 0) {
@@ -132,11 +164,22 @@ export default function Home() {
                     </div>
                     <div className={styles.heroImage}>
                         <div className={styles.avatarContainer}>
-                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className={styles.avatar}>
-                                <circle cx="100" cy="100" r="80" fill="#F0F0F0" />
-                                <circle cx="70" cy="80" r="10" fill="#333" />
-                                <circle cx="130" cy="80" r="10" fill="#333" />
-                                <path d="M 70 120 Q 100 150 130 120" stroke="#333" strokeWidth="5" fill="none" />
+                            <svg ref={sunRef} viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" className={styles.avatar}>
+                                <defs>
+                                    <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+                                        <stop offset="0%" stopColor="#FFFFFF" />
+                                        <stop offset="70%" stopColor="#FFCC33" />
+                                        <stop offset="100%" stopColor="#FF9900" />
+                                    </radialGradient>
+                                    <filter id="sunGlow" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="15" result="blur" />
+                                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                                    </filter>
+                                </defs>
+                                <circle cx="150" cy="150" r="80" fill="url(#sunGradient)" filter="url(#sunGlow)" />
+                                <path ref={sunlightRef} d="M150,150 L250,150" stroke="rgba(255, 204, 51, 0.6)" strokeWidth="4" className={styles.sunlight}>
+                                    <animate attributeName="stroke-opacity" values="0.7;0.3;0.7" dur="3s" repeatCount="indefinite" />
+                                </path>
                             </svg>
                         </div>
                     </div>
