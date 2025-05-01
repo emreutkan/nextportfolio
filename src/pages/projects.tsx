@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
 import Link from 'next/link'
-import styles from '../styles/Projects.module.css'
+import styles from '../styles/ProjectsScreen.module.css'
 import projects from '../data/projects'
 
 export default function Projects() {

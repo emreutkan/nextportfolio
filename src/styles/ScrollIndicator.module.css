@@ -1,0 +1,125 @@
+.scrollIndicator {
+    position: fixed;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.scrollProgress {
+    width: 100%;
+    background: linear-gradient(to top, #3498db, #8e44ad);
+    border-radius: 5px;
+    transition: height 0.3s ease;
+    position: absolute;
+    bottom: 0;
+}
+
+.scrollButtons {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.scrollButtons button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.scrollButtons button:hover {
+    background: rgba(52, 152, 219, 0.2);
+    transform: scale(1.1);
+}
+
+.scrollButtons button:active {
+    transform: scale(0.95);
+}
+
+.scrollButtons button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.5);
+}
+
+.scrollButtons button:first-child {
+    position: absolute;
+    top: -60px;
+}
+
+.scrollButtons button:last-child {
+    position: absolute;
+    bottom: -60px;
+}
+
+.sectionDots {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    top: -60px;
+}
+
+.sectionDot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.sectionDot:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.sectionDot.active {
+    background: #3498db;
+    transform: scale(1.2);
+}
+
+.sectionLabel {
+    position: absolute;
+    left: -80px;
+    padding: 0.3rem 0.7rem;
+    background: rgba(10, 10, 10, 0.8);
+    color: white;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.sectionDot:hover + .sectionLabel {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+    .scrollIndicator {
+        display: none;
+    }
+}

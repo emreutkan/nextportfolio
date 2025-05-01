@@ -1,0 +1,275 @@
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a1a2e, #121212);
+}
+
+.floatingElement {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(142, 68, 173, 0.1));
+    filter: blur(30px);
+    animation: float 15s infinite alternate ease-in-out;
+    z-index: 1;
+}
+
+.floatingElement:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floatingElement:nth-child(2) {
+    bottom: 20%;
+    right: 15%;
+    width: 200px;
+    height: 200px;
+    animation-delay: 5s;
+}
+
+.floatingElement:nth-child(3) {
+    top: 40%;
+    right: 30%;
+    width: 150px;
+    height: 150px;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate(20px, 20px) rotate(10deg);
+    }
+}
+
+.heroContent {
+    z-index: 2;
+    max-width: 900px;
+    padding: 0 2rem;
+    text-align: center;
+}
+
+.heroText {
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.heroTitle {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+    animation: fadeSlideUp 1s ease;
+}
+
+.heroSubtitle {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+    animation: fadeSlideUp 1s ease 0.2s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.heroButtons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    animation: fadeSlideUp 1s ease 0.4s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.primaryButton {
+    padding: 0.75rem 2rem;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.primaryButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+.primaryButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+}
+
+.buttonGlow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: rotate(45deg);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.primaryButton:hover .buttonGlow {
+    opacity: 1;
+    animation: glow 2s infinite;
+}
+
+@keyframes glow {
+    0% {
+        transform: rotate(45deg) translateX(-100%) translateY(-100%);
+    }
+    100% {
+        transform: rotate(45deg) translateX(100%) translateY(100%);
+    }
+}
+
+.secondaryButton {
+    padding: 0.75rem 2rem;
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.secondaryButton:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+.secondaryButton:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+.scrollIndicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    animation: fadeIn 1s ease 0.8s forwards;
+    opacity: 0;
+}
+
+.scrollText {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.scrollIcon {
+    width: 30px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    position: relative;
+}
+
+.scrollIcon::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 4px;
+    height: 8px;
+    background-color: white;
+    border-radius: 2px;
+    transform: translateX(-50%);
+    animation: scrollAnim 2s infinite;
+}
+
+@keyframes scrollAnim {
+    0% {
+        opacity: 1;
+        top: 8px;
+    }
+    50% {
+        opacity: 1;
+        top: 20px;
+    }
+    100% {
+        opacity: 0;
+        top: 20px;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .heroTitle {
+        font-size: 2.5rem;
+    }
+
+    .heroSubtitle {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .heroButtons {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .heroTitle {
+        font-size: 2rem;
+    }
+
+    .heroContent {
+        padding: 0 1rem;
+    }
+}

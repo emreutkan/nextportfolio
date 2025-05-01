@@ -1,0 +1,224 @@
+.section {
+    padding: 5rem 2rem;
+    background: #171717;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.sectionContent {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sectionTitle {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+.sectionTitle::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    border-radius: 3px;
+}
+
+.contactContainer {
+    display: flex;
+    gap: 3rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.contactInfo {
+    flex: 1;
+    min-width: 300px;
+}
+
+.contactHeading {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.contactHeading::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+}
+
+.contactText {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.contactDetails {
+    margin-bottom: 2rem;
+}
+
+.contactDetail {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.contactIcon {
+    width: 40px;
+    height: 40px;
+    background: rgba(52, 152, 219, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: #3498db;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contactDetail:hover .contactIcon {
+    background: rgba(52, 152, 219, 0.2);
+    color: #8e44ad;
+}
+
+.contactDetailText {
+    flex: 1;
+}
+
+.contactDetailLabel {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 0.2rem;
+}
+
+.contactDetailValue {
+    font-size: 1rem;
+    color: white;
+}
+
+.socialLinks {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.socialLink {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.7);
+    transition: all 0.3s ease;
+}
+
+.socialLink:hover {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+    transform: translateY(-5px);
+}
+
+.contactForm {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.formLabel {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.formInput,
+.formTextarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+    outline: none;
+    border-color: #3498db;
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.formTextarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.formSubmit {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(90deg, #3498db, #8e44ad);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.formSubmit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+.formSubmit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(52, 152, 219, 0.3);
+}
+
+@media (max-width: 768px) {
+    .contactContainer {
+        flex-direction: column;
+    }
+
+    .socialLinks {
+        justify-content: center;
+    }
+}
