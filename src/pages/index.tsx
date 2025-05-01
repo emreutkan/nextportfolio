@@ -14,6 +14,7 @@ export default function Home() {
     const [activeNav, setActiveNav] = useState('home')
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
     const [scrollProgress, setScrollProgress] = useState(0)
+    const [isScrolling, setIsScrolling] = useState(false)
     const [visibleSections, setVisibleSections] = useState<{[key: string]: boolean}>({
         home: true,
         projects: false,
@@ -24,8 +25,13 @@ export default function Home() {
 
     const sectionRefs = useRef<(HTMLElement | null)[]>([])
     const sections = ['home', 'projects', 'about', 'certificates', 'contact']
+    const lastScrollTime = useRef<number>(0)
+    const scrollCooldown = 1000
 
     const scrollToSection = (sectionId: string) => {
+        if (isScrolling) return
+
+        setIsScrolling(true)
         const element = document.getElementById(sectionId)
         if (element) {
             const headerOffset = 80
@@ -36,69 +42,109 @@ export default function Home() {
                 top: offsetPosition,
                 behavior: 'smooth'
             })
+
             setActiveNav(sectionId)
+
+            const sectionIndex = sections.findIndex(section => section === sectionId)
+            if (sectionIndex !== -1) {
+                setCurrentSectionIndex(sectionIndex)
+
+                const newVisibleSections = {...visibleSections}
+                Object.keys(newVisibleSections).forEach(key => {
+                    newVisibleSections[key] = key === sectionId
+                })
+                setVisibleSections(newVisibleSections)
+            }
+
+            setTimeout(() => {
+                setIsScrolling(false)
+            }, scrollCooldown)
+        } else {
+            setIsScrolling(false)
         }
     }
 
-    const handleScroll = () => {
+    const calculateScrollProgress = () => {
         const windowHeight = document.documentElement.scrollHeight - window.innerHeight
         const scrolled = (window.scrollY / windowHeight) * 100
         setScrollProgress(scrolled)
+    }
 
-        const pageYOffset = window.pageYOffset
-        let newIndex = 0
-        const newVisibleSections = {...visibleSections}
+    const handleWheel = (e: WheelEvent) => {
+        e.preventDefault()
 
-        sections.forEach((section, index) => {
-            const element = document.getElementById(section)
-            if (element) {
-                const rect = element.getBoundingClientRect()
-                const offsetTop = element.offsetTop - 100
+        const now = Date.now()
+        if (now - lastScrollTime.current < scrollCooldown || isScrolling) {
+            return
+        }
 
-                if (rect.top < window.innerHeight * 0.8) {
-                    newVisibleSections[section] = true
-                }
+        lastScrollTime.current = now
 
-                if (pageYOffset >= offsetTop) {
-                    newIndex = index
-                    setActiveNav(section)
-                }
-            }
-        })
-
-        setVisibleSections(newVisibleSections)
-        setCurrentSectionIndex(newIndex)
+        if (e.deltaY > 0) {
+            navigateToNextSection()
+        } else {
+            navigateToPreviousSection()
+        }
     }
 
     useEffect(() => {
-        window.addEventListener('scroll', handleScroll)
-        window.addEventListener('resize', handleScroll)
+        const wheelListener = (e: WheelEvent) => handleWheel(e)
+        window.addEventListener('wheel', wheelListener, { passive: false })
 
         sectionRefs.current = sections.map(section => document.getElementById(section))
 
+        calculateScrollProgress()
+
+        window.addEventListener('resize', calculateScrollProgress)
+
         setTimeout(() => {
-            handleScroll()
+            const firstSection = document.getElementById('home')
+            if (firstSection) {
+                const newVisibleSections = {...visibleSections}
+                newVisibleSections.home = true
+                setVisibleSections(newVisibleSections)
+            }
         }, 100)
 
         return () => {
-            window.removeEventListener('scroll', handleScroll)
-            window.removeEventListener('resize', handleScroll)
+            window.removeEventListener('wheel', wheelListener)
+            window.removeEventListener('resize', calculateScrollProgress)
         }
-    }, [])
+    }, [isScrolling])
 
     const navigateToPreviousSection = () => {
-        if (currentSectionIndex > 0) {
+        if (currentSectionIndex > 0 && !isScrolling) {
             const prevSection = sections[currentSectionIndex - 1]
             scrollToSection(prevSection)
         }
     }
 
     const navigateToNextSection = () => {
-        if (currentSectionIndex < sections.length - 1) {
+        if (currentSectionIndex < sections.length - 1 && !isScrolling) {
             const nextSection = sections[currentSectionIndex + 1]
             scrollToSection(nextSection)
         }
     }
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (isScrolling) return
+
+        if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+            e.preventDefault()
+            navigateToNextSection()
+        } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+            e.preventDefault()
+            navigateToPreviousSection()
+        }
+    }
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown)
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [currentSectionIndex, isScrolling])
 
     return (
         <div className={styles.container}>

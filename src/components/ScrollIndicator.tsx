@@ -17,14 +17,10 @@ const ScrollIndicator: React.FC<ScrollIndicatorProps> = ({
             <div className={styles.scrollProgress} style={{ height: `${scrollProgress}%` }}></div>
             <div className={styles.scrollButtons}>
                 <button aria-label="Previous section" onClick={navigateToPreviousSection}>
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
+
                 </button>
                 <button aria-label="Next section" onClick={navigateToNextSection}>
-                    <svg viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
+
                 </button>
             </div>
         </div>

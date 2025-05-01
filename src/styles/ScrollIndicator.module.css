@@ -29,43 +29,20 @@
     transform: translateX(-50%);
     transition: height 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
-    border-radius: 3px;
 }
 
-.scrollButtons {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    align-items: center;
-}
 
 .scrollButtons button {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #1a2942, #243656);
-    border: none;
-    border-radius: 50%;
+    width: 20px;
+    height: 70px;
+    background: transparent;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64c8ff;
-    cursor: pointer;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(100, 200, 255, 0.15);
+    border: none;
 }
 
-.scrollButtons button:hover {
-    background: linear-gradient(135deg, #4c94ff, #64c8ff);
-    color: #ffffff;
-    transform: scale(1.15);
-    box-shadow: 0 15px 35px rgba(100, 200, 255, 0.3);
-    border-color: rgba(100, 200, 255, 0.4);
-}
 
-.scrollButtons button:active {
-    transform: scale(0.95);
-}
+
 
 @keyframes fadeIn {
     from {
