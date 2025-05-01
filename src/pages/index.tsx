@@ -14,6 +14,13 @@ export default function Home() {
     const [activeNav, setActiveNav] = useState('home')
     const [currentSectionIndex, setCurrentSectionIndex] = useState(0)
     const [scrollProgress, setScrollProgress] = useState(0)
+    const [visibleSections, setVisibleSections] = useState<{[key: string]: boolean}>({
+        home: true,
+        projects: false,
+        about: false,
+        certificates: false,
+        contact: false
+    })
 
     const sectionRefs = useRef<(HTMLElement | null)[]>([])
     const sections = ['home', 'projects', 'about', 'certificates', 'contact']
@@ -40,6 +47,7 @@ export default function Home() {
 
         const pageYOffset = window.pageYOffset
         let newIndex = 0
+        const newVisibleSections = {...visibleSections}
 
         sections.forEach((section, index) => {
             const element = document.getElementById(section)
@@ -48,10 +56,7 @@ export default function Home() {
                 const offsetTop = element.offsetTop - 100
 
                 if (rect.top < window.innerHeight * 0.8) {
-                    const sectionElement = sectionRefs.current[index]
-                    if (sectionElement && !sectionElement.classList.contains(styles.visible)) {
-                        sectionElement.classList.add(styles.visible)
-                    }
+                    newVisibleSections[section] = true
                 }
 
                 if (pageYOffset >= offsetTop) {
@@ -61,6 +66,7 @@ export default function Home() {
             }
         })
 
+        setVisibleSections(newVisibleSections)
         setCurrentSectionIndex(newIndex)
     }
 
@@ -72,11 +78,6 @@ export default function Home() {
 
         setTimeout(() => {
             handleScroll()
-
-            const firstSection = sectionRefs.current[0]
-            if (firstSection && !firstSection.classList.contains(styles.visible)) {
-                firstSection.classList.add(styles.visible)
-            }
         }, 100)
 
         return () => {
@@ -109,10 +110,10 @@ export default function Home() {
 
             <Header activeNav={activeNav} scrollToSection={scrollToSection} />
             <Hero scrollToSection={scrollToSection} />
-            <Projects ref={el => sectionRefs.current[1] = el} />
-            <About ref={el => sectionRefs.current[2] = el} />
-            <Certificates ref={el => sectionRefs.current[3] = el} />
-            <Contact ref={el => sectionRefs.current[4] = el} />
+            <Projects ref={el => sectionRefs.current[1] = el} isVisible={visibleSections.projects} />
+            <About ref={el => sectionRefs.current[2] = el} isVisible={visibleSections.about} />
+            <Certificates ref={el => sectionRefs.current[3] = el} isVisible={visibleSections.certificates} />
+            <Contact ref={el => sectionRefs.current[4] = el} isVisible={visibleSections.contact} />
             <Footer scrollToSection={scrollToSection} />
 
             <ScrollIndicator

@@ -1,9 +1,13 @@
 import React, { forwardRef } from 'react';
 import styles from '../styles/Certificates.module.css';
 
-const Certificates = forwardRef<HTMLElement>((props, ref) => {
+interface CertificatesProps {
+    isVisible?: boolean;
+}
+
+const Certificates = forwardRef<HTMLElement, CertificatesProps>(({ isVisible = false }, ref) => {
     return (
-        <section id="certificates" ref={ref} className={styles.section}>
+        <section id="certificates" ref={ref} className={`${styles.section} ${isVisible ? styles.visible : ''}`}>
             <div className={styles.sectionContent}>
                 <h2 className={styles.sectionTitle}>Certificates</h2>
                 <div className={styles.certificatesGrid}>

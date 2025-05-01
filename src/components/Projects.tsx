@@ -2,9 +2,13 @@ import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import styles from '../styles/Projects.module.css';
 
-const Projects = forwardRef<HTMLElement>((props, ref) => {
+interface ProjectsProps {
+    isVisible?: boolean;
+}
+
+const Projects = forwardRef<HTMLElement, ProjectsProps>(({ isVisible = false }, ref) => {
     return (
-        <section id="projects" ref={ref} className={styles.section}>
+        <section id="projects" ref={ref} className={`${styles.section} ${isVisible ? styles.visible : ''}`}>
             <div className={styles.sectionContent}>
                 <h2 className={styles.sectionTitle}>Featured Projects</h2>
                 <div className={styles.featuredProjects}>

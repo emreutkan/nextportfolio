@@ -1,9 +1,13 @@
 import React, { forwardRef } from 'react';
 import styles from '../styles/Contact.module.css';
 
-const Contact = forwardRef<HTMLElement>((props, ref) => {
+interface ContactProps {
+    isVisible?: boolean;
+}
+
+const Contact = forwardRef<HTMLElement, ContactProps>(({ isVisible = false }, ref) => {
     return (
-        <section id="contact" ref={ref} className={styles.section}>
+        <section id="contact" ref={ref} className={`${styles.section} ${isVisible ? styles.visible : ''}`}>
             <div className={styles.sectionContent}>
                 <h2 className={styles.sectionTitle}>Contact Me</h2>
                 <div className={styles.socialLinks}>

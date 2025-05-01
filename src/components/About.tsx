@@ -1,9 +1,13 @@
 import React, { forwardRef } from 'react';
 import styles from '../styles/About.module.css';
 
-const About = forwardRef<HTMLElement>((props, ref) => {
+interface AboutProps {
+    isVisible?: boolean;
+}
+
+const About = forwardRef<HTMLElement, AboutProps>(({ isVisible = false }, ref) => {
     return (
-        <section id="about" ref={ref} className={styles.section}>
+        <section id="about" ref={ref} className={`${styles.section} ${isVisible ? styles.visible : ''}`}>
             <div className={styles.sectionContent}>
                 <h2 className={styles.sectionTitle}>About Me</h2>
                 <div className={styles.aboutContent}>

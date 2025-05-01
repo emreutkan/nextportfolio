@@ -26,10 +26,6 @@ const Hero: React.FC<HeroProps> = ({ scrollToSection }) => {
                     </div>
                 </div>
             </div>
-            <div className={styles.scrollIndicator}>
-                <div className={styles.scrollText}>Scroll Down</div>
-                <div className={styles.scrollIcon}></div>
-            </div>
         </section>
     );
 };

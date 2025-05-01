@@ -1,96 +1,141 @@
+/* Projects Section */
 .section {
-    padding: 5rem 2rem;
-    background: #121212;
+    padding: 7rem 2rem;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+}
+
+.section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 70% 30%, rgba(100, 200, 255, 0.1), transparent 50%);
+    z-index: 0;
+}
+
+.section.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .sectionContent {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
+    transform: translateZ(0);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    z-index: 1;
+}
+
+.sectionContent:hover {
+    transform: translateZ(20px);
 }
 
 .sectionTitle {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 3rem;
-    text-align: center;
-    background: linear-gradient(90deg, #3498db, #8e44ad);
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 4rem;
+    background: linear-gradient(90deg, #64c8ff, #64f5ff, #c764ff);
+    background-size: 300% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     position: relative;
+    display: inline-block;
+    animation: gradientShift 8s ease infinite, slideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    letter-spacing: -0.5px;
+    filter: drop-shadow(0 5px 15px rgba(100, 200, 255, 0.3));
 }
 
 .sectionTitle::after {
     content: '';
     position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background: linear-gradient(90deg, #3498db, #8e44ad);
-    border-radius: 3px;
+    bottom: -15px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #64c8ff, transparent);
+    animation: slideInRight 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+    box-shadow: 0 0 15px rgba(100, 200, 255, 0.5);
+    border-radius: 2px;
 }
 
 .featuredProjects {
+    margin-bottom: 3rem;
+    perspective: 1000px;
     position: relative;
 }
 
 .viewAllProjects {
-    position: absolute;
-    top: -60px;
-    right: 0;
-    color: rgba(255, 255, 255, 0.7);
+    display: inline-block;
+    margin-bottom: 3rem;
+    padding: 0.9rem 2rem;
+    background: linear-gradient(135deg, #1e2b45, #2a3c5c);
+    color: #ffffff;
+    border-radius: 50px;
     text-decoration: none;
-    transition: color 0.3s ease;
-    display: flex;
-    align-items: center;
-    font-weight: 500;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(100, 200, 255, 0.2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.viewAllProjects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .viewAllProjects:hover {
-    color: white;
+    background: linear-gradient(135deg, #2a3c5c, #364e78);
+    transform: translateY(-7px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(100, 200, 255, 0.4);
+    text-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
 }
 
-.viewAllProjects::after {
-    content: '→';
-    margin-left: 0.5rem;
-    transition: transform 0.3s ease;
-}
-
-.viewAllProjects:hover::after {
-    transform: translateX(5px);
+.viewAllProjects:hover::before {
+    transform: translateX(200%);
 }
 
 .projectHighlights {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    gap: 2.5rem;
+    perspective: 1000px;
 }
 
 .projectPreview {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+    background: linear-gradient(135deg, #1a2942, #243656);
+    border-radius: 15px;
+    padding: 2.5rem;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 1;
+    display: block;
+    transform: translateZ(0);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(100, 200, 255, 0.15);
     position: relative;
     overflow: hidden;
-}
-
-.projectPreview:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    background: rgba(255, 255, 255, 0.07);
 }
 
 .projectPreview::before {
@@ -99,192 +144,191 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #3498db, #8e44ad);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
+    height: 100%;
+    background: radial-gradient(circle at bottom right, rgba(100, 200, 255, 0.1), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.projectPreview:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+    border-color: rgba(100, 200, 255, 0.3);
 }
 
 .projectPreview:hover::before {
-    transform: scaleX(1);
+    opacity: 1;
 }
 
 .projectIcon {
-    color: #3498db;
-    margin-bottom: 1.5rem;
+    color: #64c8ff;
+    margin-bottom: 1.8rem;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    filter: drop-shadow(0 5px 15px rgba(100, 200, 255, 0.3));
+}
+
+.projectPreview:hover .projectIcon {
+    transform: rotate(10deg) scale(1.15);
+    color: #ffffff;
+    filter: drop-shadow(0 8px 20px rgba(100, 200, 255, 0.6));
 }
 
 .projectPreview h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.7rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    background: linear-gradient(90deg, #ffffff, #64c8ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 100%;
+    background-position: 0 0;
+    letter-spacing: -0.5px;
+}
+
+.projectPreview:hover h3 {
+    background-position: 100% 0;
 }
 
 .projectPreview p {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 1.5rem;
-    flex-grow: 1;
+    color: #a4c2f4;
+    margin-bottom: 1.8rem;
+    transition: color 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     line-height: 1.6;
+    font-size: 1.05rem;
+}
+
+.projectPreview:hover p {
+    color: #d9e6ff;
 }
 
 .technologies {
     display: flex;
+    gap: 0.7rem;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.8rem;
 }
 
 .tech {
-    background: rgba(52, 152, 219, 0.2);
-    color: #3498db;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    padding: 0.4rem 1rem;
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.1), rgba(100, 200, 255, 0.2));
+    border-radius: 30px;
+    font-size: 0.85rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border: 1px solid rgba(100, 200, 255, 0.15);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    color: #c0d8ff;
 }
 
-.tech:hover {
-    background: rgba(52, 152, 219, 0.3);
-    color: white;
+.projectPreview:hover .tech {
+    background: linear-gradient(135deg, rgba(100, 200, 255, 0.2), rgba(100, 200, 255, 0.3));
+    transform: scale(1.05);
+    border-color: rgba(100, 200, 255, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
 }
 
 .projectLink {
-    color: #3498db;
-    text-decoration: none;
-    font-weight: 500;
+    color: #64c8ff;
     display: inline-flex;
     align-items: center;
-    transition: color 0.3s ease;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    text-decoration: none;
+}
+
+.projectLink::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #64c8ff, #64f5ff);
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
 }
 
 .projectLink:hover {
-    color: #8e44ad;
+    gap: 0.9rem;
+    color: #ffffff;
+    text-shadow: 0 0 10px rgba(100, 200, 255, 0.5);
+}
+
+.projectLink:hover::after {
+    width: calc(100% - 24px);
 }
 
 .arrow {
-    margin-left: 0.5rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .projectLink:hover .arrow {
-    transform: translateX(5px);
+    transform: translateX(8px);
 }
 
-.projectGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 3rem;
-}
-
-.projectCard {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.projectCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-}
-
-.projectImage {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.projectCard:hover .projectImage {
-    transform: scale(1.05);
-}
-
-.projectInfo {
-    padding: 1.5rem;
-}
-
-.projectInfo h3 {
-    margin-bottom: 0.75rem;
-    font-size: 1.2rem;
-    font-weight: 600;
-}
-
-.projectInfo p {
-    color: rgba(255, 255, 255, 0.7);
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
-.projectTags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.projectTag {
-    background: rgba(52, 152, 219, 0.2);
-    color: #3498db;
-    padding: 0.2rem 0.5rem;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    font-weight: 500;
-}
-
-.projectLinks {
-    display: flex;
-    gap: 1rem;
-}
-
-.projectCardLink {
-    color: #3498db;
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    transition: color 0.3s ease;
-}
-
-.projectCardLink:hover {
-    color: #8e44ad;
-}
-
-.projectCardLink svg {
-    margin-right: 0.3rem;
-}
-
-@media (max-width: 1024px) {
-    .projectHighlights {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(70px) translateZ(0) rotateY(0);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) translateZ(30px) rotateY(-5deg);
+    }
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Responsive Styles */
 @media (max-width: 768px) {
-    .viewAllProjects {
-        position: relative;
-        top: 0;
-        right: 0;
-        margin-bottom: 2rem;
-        justify-content: flex-end;
-        width: 100%;
+    .projectHighlights {
+        grid-template-columns: 1fr;
+    }
+
+    .sectionTitle {
+        font-size: 2.3rem;
+    }
+
+    .projectPreview {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        padding: 5rem 1rem;
+    }
+
+    .sectionTitle {
+        font-size: 2rem;
     }
 
     .projectHighlights {
         grid-template-columns: 1fr;
-    }
-}
-
-@media (max-width: 480px) {
-    .section {
-        padding: 4rem 1rem;
-    }
-
-    .projectPreview {
-        padding: 1.5rem;
     }
 }
